@@ -37,7 +37,7 @@ router.post("/add-user", [], async (req, res) => {
       },
     }
 
-    jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1d" }, (err, token) => {
+    jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "2d" }, (err, token) => {
       if (err) throw err
       res.json({ token, user })
     })

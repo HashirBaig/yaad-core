@@ -8,11 +8,16 @@ const auth = require("../../middleware/auth")
 // @access   Private
 router.get("/", auth, async (req, res) => {
   try {
-    const userEmail = req.user.email
+    const filters = []
+    let allFilters = {}
+
     const sortBy = { createdAt: -1 }
-    const journalData = await Journal.find()
-      .and({ isDeleted: { $ne: true }, email: userEmail })
-      .sort(sortBy)
+    filters.push({ createdBy: req.user.email })
+    filters.push({ isDeleted: { $ne: true } })
+
+    allFilters.$and = [...filters]
+
+    const journalData = await Journal.find(allFilters).sort(sortBy)
 
     if (!journalData) return res.status(200).json({ journals: [] })
 

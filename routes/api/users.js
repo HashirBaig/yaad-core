@@ -37,9 +37,15 @@ router.post("/add-user", [], async (req, res) => {
       },
     }
 
+    const _passwordLessUser = {
+      id: user.id,
+      role: user.role,
+      email: user.email,
+    }
+
     jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1d" }, (err, token) => {
       if (err) throw err
-      res.json({ token, user })
+      res.json({ token, user: _passwordLessUser })
     })
   } catch (error) {
     console.log(error.message)

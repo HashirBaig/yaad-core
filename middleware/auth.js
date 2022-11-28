@@ -17,13 +17,13 @@ module.exports = function (req, res, next) {
   try {
     jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
       if (error) {
-        return res.status(401).json({ message: INVALID_TOKEN })
+        return res.status(401).json({ message: "Invalid token" })
       } else {
         req.user = decoded.user
         next()
       }
     })
   } catch (err) {
-    return res.status(500).json({ message: SERVER_ERROR })
+    return res.status(500).json({ message: "Server Error" })
   }
 }

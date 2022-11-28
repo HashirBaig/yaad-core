@@ -1,15 +1,17 @@
 const express = require("express")
 const router = express.Router()
 const Journal = require("../../models/Journal")
+const auth = require("../../middleware/auth")
 
 // @route    GET api/journal/
 // @desc     Get all journal entries
 // @access   Private
-router.get("/", [], async (req, res) => {
+router.get("/", auth, async (req, res) => {
   try {
+    const userEmail = req.user.email
     const sortBy = { createdAt: -1 }
     const journalData = await Journal.find()
-      .and({ isDeleted: { $ne: true } })
+      .and({ isDeleted: { $ne: true }, email: userEmail })
       .sort(sortBy)
 
     if (!journalData) return res.status(200).json({ journals: [] })
@@ -24,12 +26,13 @@ router.get("/", [], async (req, res) => {
 // @route    POST api/journal/add-entry
 // @desc     Add journal entries to DB by date & time
 // @access   Private
-router.post("/add-entry", [], async (req, res) => {
+router.post("/add-entry", auth, async (req, res) => {
   const { message } = req.body
+  const userEmail = req.user.email
   try {
     const journalData = new Journal({
       message,
-      createdBy: "Natsu",
+      createdBy: userEmail,
       isDeleted: false,
     })
 
@@ -45,7 +48,7 @@ router.post("/add-entry", [], async (req, res) => {
 // @route    POST api/journal/soft-delete/:id
 // @desc     Set isDelete property to true
 // @access   Private
-router.post("/soft-delete/:id", [], async (req, res) => {
+router.post("/soft-delete/:id", auth, async (req, res) => {
   const { id } = req.params
   try {
     const updatedJournal = await Journal.updateOne({ _id: id }, { $set: { isDeleted: true } })

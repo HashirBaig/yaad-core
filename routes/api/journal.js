@@ -50,6 +50,27 @@ router.post("/add-entry", auth, async (req, res) => {
   }
 })
 
+// @route    PUT api/update-journal/:id
+// @desc     Update journal
+// @access   Private
+router.put("/update-journal/:id", auth, async (req, res) => {
+  const { message } = req.body
+  const { id } = req.params
+
+  try {
+    const updatedJournal = await Journal.updateOne({ _id: id }, { $set: { message: message, isEdited: true } })
+
+    if (!updatedJournal) {
+      return res.status(404).json({ message: "Deletion Failed" })
+    }
+
+    res.status(200).json({ message: "success", journal: updatedJournal })
+  } catch (error) {
+    console.log(error.message)
+    res.status(500).send("Servor Error")
+  }
+})
+
 // @route    POST api/journal/soft-delete/:id
 // @desc     Set isDelete property to true
 // @access   Private

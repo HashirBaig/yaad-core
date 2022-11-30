@@ -14,6 +14,9 @@ const JournalSchema = new mongoose.Schema({
   isDeleted: {
     type: Boolean,
   },
+  isEdited: {
+    type: Boolean,
+  },
 })
 
 module.exports = mongoose.model("journal", JournalSchema)

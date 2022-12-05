@@ -26,6 +26,7 @@ app.use(express.json())
 app.use("/api/journal", require("./routes/api/journal"))
 app.use("/api/users", require("./routes/api/users"))
 app.use("/api/auth", require("./routes/api/auth"))
+app.use("/api/streak", require("./routes/api/streak"))
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => console.log(`app running on port ${PORT}...`))

@@ -9,8 +9,6 @@ if (process.env.NODE_ENV !== "production") {
 
 const app = express()
 
-const file = fs.readFileSync("./4179C4785039E975D2592E6FEB71CC15.txt")
-
 // Connect to DB
 connectDB()
 

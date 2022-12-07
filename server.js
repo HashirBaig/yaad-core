@@ -35,5 +35,5 @@ app.get("/.well-known/pki-validation/4179C4785039E975D2592E6FEB71CC15.txt", asyn
   res.send("./4179C4785039E975D2592E6FEB71CC15.txt")
 })
 
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 443
 app.listen(PORT, () => console.log(`app running on port ${PORT}...`))
